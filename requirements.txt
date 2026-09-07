@@ -1,0 +1,9 @@
+numpy
+roboflow
+werkzeug
+streamlit
+ultralytics
+supervision
+opencv-python-headless
+Pillow
+numpy
