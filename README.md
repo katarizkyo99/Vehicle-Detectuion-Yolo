@@ -1,4 +1,3 @@
-```markdown
 # Vehicle Type Detection (YOLOv8 + Streamlit)
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://vehicle-detection-yolo-ocdwr4afznns6xwfsgd7na.streamlit.app/)
