@@ -1,4 +1,4 @@
-# Vehicle Type Detection (YOLOv8 + Flask)
+[# Vehicle Type Detection (YOLOv8 + Flask)
 
 A simple Flask web application to detect vehicle types (car, motorcycle, bus, truck) in uploaded images using YOLOv8 (Ultralytics) and annotate results with supervision. The app provides a single-page web UI to upload images and returns annotated images with bounding boxes and class labels.
 
@@ -116,3 +116,4 @@ Open http://127.0.0.1:5000/ in your browser, upload an image, and wait for the a
 ## Author
 
 - Repository owner: katarizkyo99
+](https://vehicle-detection-yolo-ocdwr4afznns6xwfsgd7na.streamlit.app/)
