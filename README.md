@@ -1,108 +1,128 @@
-# Vehicle Type Detection (YOLOv8 + Streamlit)
+# 🚦 TrafficLens — Real-Time Vehicle Detection & AI Traffic Analysis
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://vehicle-detection-yolo-ocdwr4afznns6xwfsgd7na.streamlit.app/)
+<!-- Ganti baris di bawah dengan screenshot aplikasi kamu -->
+![TrafficLens Screenshot](./assets/trafficlens_result.png)
 
-**Live Demo:** [Vehicle Detection Web App](https://vehicle-detection-yolo-ocdwr4afznns6xwfsgd7na.streamlit.app/)
+A computer vision web app built with **Streamlit**, **YOLOv8 (Ultralytics)**, **Supervision**, and the **Groq Cloud API**. Upload any road/traffic image and TrafficLens detects, counts, and classifies vehicles (cars, motorcycles, buses, trucks), then generates a natural-language traffic composition analysis powered by an LLM.
 
-A computer vision web application built entirely with Streamlit to detect and classify vehicle types (car, motorcycle, bus, truck) in uploaded images. The application utilizes a YOLOv8 model for object detection and the Supervision library for clean, professional bounding box annotations. 
+---
 
-## Features
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://vehicle-object-detection-yolov8-qpw3b4wo2wsveqkzindrgh.streamlit.app/)
+**Live Demo:** [TrafficLens]([https://your-trafficlens-app.streamlit.app/](https://vehicle-object-detection-yolov8-qpw3b4wo2wsveqkzindrgh.streamlit.app/))
 
-* **Interactive UI:** Upload images directly through a clean Streamlit interface.
-* **Real-time Inference:** Fast vehicle detection and classification using Ultralytics YOLOv8.
-* **Advanced Annotation:** Custom bounding boxes and confidence score labels rendered via Supervision.
-* **In-Memory Processing:** Images are processed entirely in RAM without requiring local disk storage for uploads or results.
-* **Cloud-Ready:** Deployed seamlessly on Streamlit Community Cloud with pre-configured system graphics dependencies.
+## 🚀 Key Features
 
-## Tech Stack
+* **Upload Any Traffic Image:** Users upload their own road/traffic photos directly through the UI (`.jpg`, `.jpeg`, `.png`) — no fixed dataset required.
+* **Configurable YOLOv8 Backbone:** Switch between four YOLOv8 checkpoints at runtime (`Nano`, `Small`, `Medium`, `X-Large`) to trade off speed vs. accuracy.
+* **Adjustable Confidence Threshold:** Fine-tune detection sensitivity with a live slider (0.1–0.9).
+* **Selectable Vehicle Classes:** Choose exactly which classes to detect (car, motorcycle, bus, truck, or any class the loaded model supports).
+* **Annotated Output:** Bounding boxes and confidence-scored labels are drawn on the image using `supervision`, viewable side-by-side with the original via tabs.
+* **Downloadable Results:** Export the annotated detection image as a PNG.
+* **Composition Breakdown:** A live dashboard shows total vehicle count and per-class proportion bars.
+* **AI-Powered Traffic Analysis:** A short, natural-language summary of the traffic composition is generated via Groq's LPU-accelerated inference.
+* **Cached Model Loading:** YOLO weights are loaded once and cached via `@st.cache_resource` for fast repeated inference.
 
-* **Frontend & Backend**: Python, Streamlit
-* **Computer Vision**: Ultralytics (YOLOv8)
-* **Image Processing**: OpenCV (`opencv-python-headless`), Numpy, Pillow
-* **Annotation**: Supervision
-* **Dataset Management**: Roboflow (Optional integration included)
+---
 
-## Project Structure
+## 🛠 Tech Stack
+
+* **Frontend / UI:** Streamlit
+* **Object Detection:** Ultralytics YOLOv8
+* **Detection Post-Processing & Annotation:** Supervision (`sv.BoxAnnotator`, `sv.LabelAnnotator`)
+* **Image Processing:** OpenCV (`opencv-python-headless`), Pillow
+* **LLM Engine:** Groq API (`ChatGroq` via `langchain-groq`)
+* **Environment Management:** `python-dotenv`
+
+---
+
+## 📁 Repository Structure
 
 ```text
-project/
-├── main.py              # Core Streamlit app and inference pipeline
-├── requirements.txt     # Python dependencies
-├── packages.txt         # Linux system dependencies (libgl1) for cloud deployment
-├── foto/                # Sample testing images
-└── README.md
-
+├── assets/                 # Screenshots and static assets for documentation
+├── .env                    # Local environment variables (not committed)
+├── .gitignore              # Git exclusion rules (e.g., .env, venv, __pycache__)
+├── README.md               # Project documentation
+├── main.py                 # Streamlit UI, YOLO inference & AI analysis pipeline
+├── packages.txt            # System-level (apt) dependencies for Streamlit Cloud
+└── requirements.txt        # Python dependencies
 ```
 
-## Requirements
+> Note: `packages.txt` is required specifically for deployment on Streamlit Community Cloud — it installs system libraries (like `libgl1`) that OpenCV needs but which aren't present on the base container image.
 
-* Python 3.8+
-* `pip`
-* Required Python packages: `streamlit`, `ultralytics`, `supervision`, `opencv-python-headless`, `Pillow`, `numpy`, `roboflow`.
+---
 
-## Installation & Local Setup
+## 🧠 System Workflow
 
-1. **Clone the repository:**
+1. **Image Upload:** The user uploads a road/traffic image through the main uploader.
+2. **Model Configuration:** The user selects a YOLOv8 checkpoint, confidence threshold, and target vehicle classes from the sidebar.
+3. **Inference:** The image is passed to the loaded YOLOv8 model; results are converted into `sv.Detections` and filtered by the selected class IDs.
+4. **Annotation:** Bounding boxes and confidence-labeled tags are drawn on a copy of the image via `supervision`.
+5. **Aggregation:** Detected vehicles are grouped and counted per class to build the composition breakdown.
+6. **AI Summary Generation:**
+
+$$\text{Class Counts} \longrightarrow \text{Prompt Template} \longrightarrow \text{Groq LLM (ChatGroq)} \longrightarrow \text{Natural-Language Summary}$$
+
+7. **Result Display:** The original and annotated images, composition bars, total count, and AI-generated analysis are rendered in the UI, with an option to download the annotated image.
+
+---
+
+## ⚙️ Installation & Local Setup
+
+1. **Clone this repository:**
 ```bash
-git clone [https://github.com/katarizkyo99/Computer-Vision_Deteksi-Jenis-Kendaraan.git](https://github.com/katarizkyo99/Computer-Vision_Deteksi-Jenis-Kendaraan.git)
-cd Computer-Vision_Deteksi-Jenis-Kendaraan
-
+git clone https://github.com/<your-username>/TrafficLens.git
+cd TrafficLens
 ```
-
 
 2. **Create and activate a virtual environment:**
 ```bash
 python -m venv venv
 source venv/bin/activate    # macOS / Linux
 venv\Scripts\activate       # Windows
-
 ```
 
-
-3. **Install dependencies:**
+3. **Install Python dependencies:**
 ```bash
 pip install -r requirements.txt
-
 ```
 
-
-
-## Configuration
-
-You can configure the application using environment variables to keep your API keys secure and manage model paths dynamically:
-
-* `YOLO_WEIGHTS`: Set the path to your custom `.pt` file. If unset, the app defaults to `yolov8x.pt`.
-* `ROBOFLOW_API_KEY`: Set your Roboflow API key if you need to download datasets programmatically.
-
-Example configuration (Linux/macOS):
-
+4. **Install system dependencies (Linux only, if `cv2` import fails locally):**
 ```bash
-export YOLO_WEIGHTS="runs/detect/train/weights/best.pt"
-export ROBOFLOW_API_KEY="your_api_key_here"
-
+sudo apt-get update && sudo apt-get install -y $(cat packages.txt)
 ```
 
-## Running the Project Locally
+5. **Set up environment variables:**
+Create a `.env` file in the root directory (do not commit this file):
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
 
-Start the Streamlit server:
-
+6. **Run the Streamlit application:**
 ```bash
 streamlit run main.py
-
 ```
 
-The application will automatically open in your default web browser at `http://localhost:8501`.
+7. **Use the app:** upload a traffic image, adjust the model/confidence/classes in the sidebar, click **Scan for vehicles**, and review the detection results and AI analysis.
 
-## Cloud Deployment
+---
 
-This project is actively deployed on Streamlit Community Cloud.
+## ☁️ Deployment Configuration (Streamlit Cloud)
 
-To ensure OpenCV works correctly in a headless Linux server environment (like Streamlit Cloud), this repository includes a `packages.txt` file containing `libgl1`. This resolves the common `libGL.so.1` missing dependency error.
+When deploying to Streamlit Community Cloud:
 
-## Author
+1. Push your repository without the `.env` file.
+2. Make sure `packages.txt` is present at the **repository root** — Streamlit Cloud uses it to `apt-get install` system libraries (`libgl1`, `libglib2.0-0`) that OpenCV needs to import correctly. Without it, deployment fails with `ImportError: libGL.so.1: cannot open shared object file`.
+3. In the **Streamlit Cloud Dashboard**, open your application settings:
+   * Navigate to **Settings** > **Secrets**.
+   * Add your Groq API key:
+     ```toml
+     GROQ_API_KEY = "your_actual_groq_api_key"
+     ```
+4. Set the main file path to `main.py`.
+5. Deploy the application.
 
-* **Repository Owner:** [katarizkyo99](https://www.google.com/search?q=https://github.com/katarizkyo99)
+---
 
-```
+## 👤 Author
 
-```
+* **GitHub:** [@your-username](https://github.com/your-username)
