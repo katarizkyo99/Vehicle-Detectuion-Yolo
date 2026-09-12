@@ -1,4 +1,4 @@
-# 🚦 TrafficLens — Real-Time Vehicle Detection & AI Traffic Analysis
+# 🚦 TrafficLens: Real-Time Vehicle Detection & AI Traffic Analysis with YOLOv8 & LLM
 
 <!-- Ganti baris di bawah dengan screenshot aplikasi kamu -->
 ![TrafficLens Screenshot](./assets/TrafficLens%20Interface%20Result.png)
