@@ -125,4 +125,4 @@ When deploying to Streamlit Community Cloud:
 
 ## 👤 Author
 
-* **GitHub:** [@your-username](https://github.com/your-username)
+* **GitHub:** [@your-username](https://github.com/katarizkyo99)
