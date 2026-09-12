@@ -1,7 +1,7 @@
 # 🚦 TrafficLens — Real-Time Vehicle Detection & AI Traffic Analysis
 
 <!-- Ganti baris di bawah dengan screenshot aplikasi kamu -->
-![TrafficLens Screenshot](./assets/trafficlens_result.png)
+![TrafficLens Screenshot](./assets/TrafficLens%20Interface%20Result.png)
 
 A computer vision web app built with **Streamlit**, **YOLOv8 (Ultralytics)**, **Supervision**, and the **Groq Cloud API**. Upload any road/traffic image and TrafficLens detects, counts, and classifies vehicles (cars, motorcycles, buses, trucks), then generates a natural-language traffic composition analysis powered by an LLM.
 
